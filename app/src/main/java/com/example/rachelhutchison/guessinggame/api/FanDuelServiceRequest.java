@@ -1,4 +1,4 @@
-package com.example.rachelhutchison.guessinggame;
+package com.example.rachelhutchison.guessinggame.api;
 
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 
@@ -17,6 +17,10 @@ public class FanDuelServiceRequest {
                 .build();
         service = retrofit.create(FanDuelService.class);
 
+    }
+
+    public FanDuelServiceRequest(FanDuelService service) {
+        this.service = service;
     }
 
     public Call<FanDuelPlayers> makeGetPlayersDataRequest() {

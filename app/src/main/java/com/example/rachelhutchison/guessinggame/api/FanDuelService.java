@@ -1,4 +1,4 @@
-package com.example.rachelhutchison.guessinggame;
+package com.example.rachelhutchison.guessinggame.api;
 
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 
