@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.MyApplication;
 import com.example.rachelhutchison.guessinggame.R;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestPlayerDataRequest() {
-        MyApplication myApplication = (MyApplication) getApplication();
+        final MyApplication myApplication = (MyApplication) getApplication();
 
         myApplication.getRestService().getFanDuelPlayerData().enqueue(new Callback<FanDuelPlayers>() {
             @Override
@@ -46,10 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<FanDuelPlayers> call, Throwable t) {
-
+                displayErrorMessage();
             }
 
         });
+    }
+
+    private void displayErrorMessage() {
+        Toast.makeText(this, R.string.network_error_message, Toast.LENGTH_LONG).show();
     }
 
 }

@@ -13,8 +13,8 @@ import com.example.rachelhutchison.guessinggame.api.FanDuelService;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
-
-import java.io.IOException;
+import org.robolectric.shadows.ShadowLooper;
+import org.robolectric.shadows.ShadowToast;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -45,13 +45,24 @@ public class MainActivityTest extends RobolectricUnitTests {
     }
 
     @Test
-    public void shouldOnSuccessfulGetPlayerDataRequestShouldEnableContinueButton() throws InterruptedException, IOException {
+    public void shouldOnSuccessfulGetPlayerDataRequestShouldEnableContinueButton() throws InterruptedException {
         mockFanduelService = mockRestService.buildMockRestService(mockRestService.getSuccessResponse);
         getApplication().setService(mockFanduelService);
         mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         Button button = (Button) mainActivity.findViewById(R.id.continue_button);
         delayThreadForRestRequestResponse();
         assertTrue(button.isEnabled());
+    }
+
+    @Test
+    public void shouldOnFailureGetPlayersDataRequestShouldShowToastMessage() throws InterruptedException {
+        mockFanduelService = mockRestService.buildMockRestService(mockRestService.getFailureResponse);
+        getApplication().setService(mockFanduelService);
+        mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
+        delayThreadForRestRequestResponse();
+
+        ShadowLooper.idleMainLooper();
+        assertEquals(mainActivity.getString(R.string.network_error_message), ShadowToast.getTextOfLatestToast());
     }
 
     private void delayThreadForRestRequestResponse() throws InterruptedException {

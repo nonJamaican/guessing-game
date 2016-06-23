@@ -5,5 +5,6 @@
     <string name="welcome_message">Here you have to pick between two players on screen and try and pick the player with the highest FPPG ranking!</string>
     <string name="welcome_message_description">Try and get 10 correct in the least amount of tries.</string>
     <string name="continue_button">CONTINUE</string>
+    <string name="network_error_message">Sorry, something went wrong</string>
 
 </resources>
