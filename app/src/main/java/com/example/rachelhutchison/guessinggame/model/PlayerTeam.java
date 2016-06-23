@@ -1,8 +1,9 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PlayerTeam {
+public class PlayerTeam implements Serializable {
 
     private List<String> members;
     private String ref;

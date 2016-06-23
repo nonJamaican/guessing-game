@@ -1,6 +1,8 @@
 package com.example.rachelhutchison.guessinggame.model;
 
-public class News {
+import java.io.Serializable;
+
+public class News implements Serializable {
 
     private String latest;
 

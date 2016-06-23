@@ -1,6 +1,8 @@
 package com.example.rachelhutchison.guessinggame.model;
 
-public class Meta {
+import java.io.Serializable;
+
+public class Meta implements Serializable {
 
     private String primaryDocument;
     private Players players;

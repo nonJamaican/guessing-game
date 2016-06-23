@@ -1,8 +1,9 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FanDuelPlayers {
+public class FanDuelPlayers implements Serializable {
     private Meta meta;
     private List<Fixture> fixtures;
     private List<Player> players;

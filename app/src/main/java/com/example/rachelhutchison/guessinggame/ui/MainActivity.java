@@ -1,5 +1,6 @@
 package com.example.rachelhutchison.guessinggame.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setContinueButtonEnabled(false);
         requestPlayerDataRequest();
+    }
+
+    public void continuePressed(View view) {
+        Intent intent = new Intent(this, GuessingActivity.class);
+        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, fanDuelPlayers);
+        startActivity(intent);
     }
 
     private void setContinueButtonEnabled(boolean enabled) {
@@ -56,5 +63,4 @@ public class MainActivity extends AppCompatActivity {
     private void displayErrorMessage() {
         Toast.makeText(this, R.string.network_error_message, Toast.LENGTH_LONG).show();
     }
-
 }

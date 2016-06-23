@@ -1,6 +1,8 @@
 package com.example.rachelhutchison.guessinggame.model;
 
-public class Fixture {
+import java.io.Serializable;
+
+public class Fixture implements Serializable {
     private FixtureTeam awayTeam;
     private FixtureTeam homeTeam;
     private String id;

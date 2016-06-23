@@ -1,5 +1,6 @@
 package com.example.rachelhutchison.guessinggame.ui;
 
+import android.content.Intent;
 import android.os.HandlerThread;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +14,14 @@ import com.example.rachelhutchison.guessinggame.api.FanDuelService;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowLooper;
 import org.robolectric.shadows.ShadowToast;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.robolectric.Shadows.shadowOf;
 
 public class MainActivityTest extends RobolectricUnitTests {
 
@@ -45,7 +48,7 @@ public class MainActivityTest extends RobolectricUnitTests {
     }
 
     @Test
-    public void shouldOnSuccessfulGetPlayerDataRequestShouldEnableContinueButton() throws InterruptedException {
+    public void onSuccessfulGetPlayerDataRequestShouldEnableContinueButton() throws InterruptedException {
         mockFanduelService = mockRestService.buildMockRestService(mockRestService.getSuccessResponse);
         getApplication().setService(mockFanduelService);
         mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
@@ -55,7 +58,7 @@ public class MainActivityTest extends RobolectricUnitTests {
     }
 
     @Test
-    public void shouldOnFailureGetPlayersDataRequestShouldShowToastMessage() throws InterruptedException {
+    public void onFailureGetPlayersDataRequestShouldShowToastMessage() throws InterruptedException {
         mockFanduelService = mockRestService.buildMockRestService(mockRestService.getFailureResponse);
         getApplication().setService(mockFanduelService);
         mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
@@ -63,6 +66,20 @@ public class MainActivityTest extends RobolectricUnitTests {
 
         ShadowLooper.idleMainLooper();
         assertEquals(mainActivity.getString(R.string.network_error_message), ShadowToast.getTextOfLatestToast());
+    }
+
+    @Test
+    public void onContinueButtonPressFromSuccessResponseShouldStartNextActivity() throws InterruptedException {
+        mockFanduelService = mockRestService.buildMockRestService(mockRestService.getSuccessResponse);
+        getApplication().setService(mockFanduelService);
+        mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
+        Button button = (Button) mainActivity.findViewById(R.id.continue_button);
+        delayThreadForRestRequestResponse();
+        button.callOnClick();
+
+        ShadowActivity shadow = shadowOf(mainActivity);
+        Intent nextIntent = shadow.peekNextStartedActivity();
+        assertEquals(GuessingActivity.class.getName(), nextIntent.getComponent().getClassName());
     }
 
     private void delayThreadForRestRequestResponse() throws InterruptedException {

@@ -1,6 +1,8 @@
 package com.example.rachelhutchison.guessinggame.model;
 
-public class PlayerImage {
+import java.io.Serializable;
+
+public class PlayerImage implements Serializable {
     private DefaultImage defaultImage;
 
     public DefaultImage getDefaultImage() {
