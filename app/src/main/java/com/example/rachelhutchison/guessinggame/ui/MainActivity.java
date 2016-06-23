@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.example.rachelhutchison.guessinggame.MyApplication;
 import com.example.rachelhutchison.guessinggame.R;
-import com.example.rachelhutchison.guessinggame.api.FanDuelServiceRequest;
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 
 import retrofit2.Call;
@@ -16,7 +16,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Call<FanDuelPlayers> fanDuelPlayersCall;
     private FanDuelPlayers fanDuelPlayers;
 
     @Override
@@ -36,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestPlayerDataRequest() {
-        setFanDuelPlayersCall(new FanDuelServiceRequest().makeGetPlayersDataRequest());
-        fanDuelPlayersCall.enqueue(new Callback<FanDuelPlayers>() {
+        MyApplication myApplication = (MyApplication) getApplication();
+
+        myApplication.getRestService().getFanDuelPlayerData().enqueue(new Callback<FanDuelPlayers>() {
             @Override
             public void onResponse(Call<FanDuelPlayers> call, Response<FanDuelPlayers> response) {
                 fanDuelPlayers = response.body();
@@ -46,12 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<FanDuelPlayers> call, Throwable t) {
+
             }
 
         });
     }
 
-    protected void setFanDuelPlayersCall(Call<FanDuelPlayers> call) {
-        fanDuelPlayersCall = call;
-    }
 }
