@@ -1,5 +1,6 @@
 package com.example.rachelhutchison.guessinggame.ui.components;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,30 +8,39 @@ import android.widget.TextView;
 import com.example.rachelhutchison.guessinggame.MockImageRestService;
 import com.example.rachelhutchison.guessinggame.R;
 import com.example.rachelhutchison.guessinggame.RobolectricUnitTests;
+import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.ui.GuessingActivity;
 import com.squareup.picasso.Picasso;
 
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class PlayersFragmentTest extends RobolectricUnitTests {
 
     private GuessingActivity activity;
+    private String FIRSTNAME_BOBBY = "Bobby";
+    private String LASTNAME_SMITH = "Smith";
+    private double FPPG_RATING = 14.41463464;
+    private String URL = "urls";
 
     @Test
     public void willPopulatePlayerNameWhenPassedIn() {
         activity = buildActivity();
         TextView playerNameView = (TextView) activity.findViewById(R.id.player_name);
-        assertEquals(activity.playerName, playerNameView.getText());
+        assertEquals(FIRSTNAME_BOBBY + " " + LASTNAME_SMITH, playerNameView.getText());
     }
 
     @Test
     public void willPopulatePlayerFppgWhenPassedIn() {
         activity = buildActivity();
         TextView fppgRatingView = (TextView) activity.findViewById(R.id.player_fppg_rating);
-        assertEquals(activity.fppg, fppgRatingView.getText());
+        assertEquals(String.valueOf(FPPG_RATING), fppgRatingView.getText());
     }
 
     @Test
@@ -72,7 +82,26 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
     }
 
     private GuessingActivity buildActivity() {
-        return Robolectric.buildActivity(GuessingActivity.class).create().start().get();
+        Intent intent = new Intent(getApplication(), GuessingActivity.class);
+        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelPlayersWithOnlyOnePlayer());
+        return Robolectric.buildActivity(GuessingActivity.class).withIntent(intent).create().start().get();
+    }
+
+    private FanDuelPlayers buildFanDuelPlayersWithOnlyOnePlayer() {
+        FanDuelPlayers fanDuelPlayers = new FanDuelPlayers();
+        List<Player> players = new ArrayList<>();
+        players.add(buildPlayer());
+        fanDuelPlayers.setPlayers(players);
+        return fanDuelPlayers;
+    }
+
+    private Player buildPlayer() {
+        Player player = new Player();
+        player.setFirstName(FIRSTNAME_BOBBY);
+        player.setLastName(LASTNAME_SMITH);
+        player.setFppg(FPPG_RATING);
+        player.setPlayerCardUrl(URL);
+        return player;
     }
 
 }
