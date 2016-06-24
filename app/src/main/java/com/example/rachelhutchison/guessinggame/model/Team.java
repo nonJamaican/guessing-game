@@ -1,10 +1,13 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Team implements Serializable {
     private String city;
     private String code;
+    @SerializedName("full_name")
     private String fullName;
     private String id;
     private String name;

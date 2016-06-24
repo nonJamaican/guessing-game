@@ -1,9 +1,12 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Meta implements Serializable {
 
+    @SerializedName("_primary_document")
     private String primaryDocument;
     private Players players;
 

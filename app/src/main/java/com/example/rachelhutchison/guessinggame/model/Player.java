@@ -1,24 +1,33 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Player implements Serializable {
 
+    @SerializedName("first_name")
     private String firstName;
+    @SerializedName("fixture")
     private PlayerFixture playerFixture;
     private double fppg;
     private String id;
     private PlayerImage images;
     private boolean injured;
+    @SerializedName("injury_details")
     private String injuryDetails;
+    @SerializedName("injury_status")
     private String injuryStatus;
     private int played;
+    @SerializedName("player_card_url")
     private String playerCardUrl;
     private String position;
     private boolean removed;
     private int salary;
+    @SerializedName("starting_order")
     private Object startingOrder;
     private PlayerTeam playerTeam;
+    @SerializedName("last_name")
     private String lastName;
     private News news;
 

@@ -1,12 +1,17 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Fixture implements Serializable {
+    @SerializedName("away_team")
     private FixtureTeam awayTeam;
+    @SerializedName("home_team")
     private FixtureTeam homeTeam;
     private String id;
     private String sport;
+    @SerializedName("start_date")
     private String startDate;
     private Object status;
 

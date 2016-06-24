@@ -23,7 +23,6 @@ public class RandomPlayerGenerator {
     }
 
     private int getRandomNumber() {
-        Random random = new Random();
-        return random.nextInt(allPlayers.size());
+        return new Random().nextInt(allPlayers.size());
     }
 }

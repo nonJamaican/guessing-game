@@ -1,9 +1,13 @@
 package com.example.rachelhutchison.guessinggame.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class FanDuelPlayers implements Serializable {
+
+    @SerializedName("_meta")
     private Meta meta;
     private List<Fixture> fixtures;
     private List<Player> players;
