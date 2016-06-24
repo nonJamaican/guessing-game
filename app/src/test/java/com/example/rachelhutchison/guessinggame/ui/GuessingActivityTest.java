@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowToast;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class GuessingActivityTest extends RobolectricUnitTests {
 
@@ -17,6 +17,6 @@ public class GuessingActivityTest extends RobolectricUnitTests {
     public void ifPlayerDataExtraMissingFromBundleWillShowMessageToUser() {
         guessingActivity = Robolectric.buildActivity(GuessingActivity.class).create().visible().get();
         assertEquals(guessingActivity.getString(R.string.network_error_message), ShadowToast.getTextOfLatestToast());
-
     }
+
 }
