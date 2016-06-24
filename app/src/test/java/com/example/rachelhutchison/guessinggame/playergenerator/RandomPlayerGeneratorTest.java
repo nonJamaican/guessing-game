@@ -1,7 +1,8 @@
-package com.example.rachelhutchison.guessinggame.ui;
+package com.example.rachelhutchison.guessinggame.playergenerator;
 
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 import com.example.rachelhutchison.guessinggame.model.Player;
+import com.example.rachelhutchison.guessinggame.playergenerator.RandomPlayerGenerator;
 
 import org.junit.Before;
 import org.junit.Test;
