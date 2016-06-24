@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.R;
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment;
 
 public class GuessingActivity extends AppCompatActivity {
@@ -33,14 +34,23 @@ public class GuessingActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         } else {
-            loadPlayerFragment(url, playerName, fppg);
+            loadPlayerOneFragment(url, playerName, fppg);
+            loadPlayerTwoFragment(url, playerName, fppg);
         }
     }
 
-    private void loadPlayerFragment(String url, String playerName, String fppgRating) {
+    private void loadPlayerOneFragment(String url, String playerName, String fppgRating) {
+        loadPlayerFragment(url, playerName, fppgRating, R.id.player_one_compare_container);
+    }
+
+    private void loadPlayerTwoFragment(String url, String playerName, String fppgRating) {
+        loadPlayerFragment(url, playerName, fppgRating, R.id.player_two_compare_container);
+    }
+
+    private void loadPlayerFragment(String url, String playerName, String fppgRating, int containerView) {
         FragmentManager fragmentManager = getFragmentManager();
         Fragment playerFragment = PlayersFragment.newInstance(url, playerName, fppgRating);
-        fragmentManager.beginTransaction().replace(R.id.player_one_compare_container, playerFragment).commit();
+        fragmentManager.beginTransaction().replace(containerView, playerFragment).commit();
     }
 
     private void extractExtras() {
