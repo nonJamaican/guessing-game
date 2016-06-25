@@ -48,8 +48,10 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
     }
 
     private void populatePlayerGameData() {
-        loadPlayerOneFragment(randomPlayerGenerator.getRandomPlayer());
-        loadPlayerTwoFragment(randomPlayerGenerator.getRandomPlayer());
+        Player player1 = randomPlayerGenerator.getRandomPlayer();
+        Player player2 = randomPlayerGenerator.getRandomPlayer();
+        loadPlayerOneFragment(player1);
+        loadPlayerTwoFragment(player2);
     }
 
     private void loadPlayerOneFragment(Player player) {

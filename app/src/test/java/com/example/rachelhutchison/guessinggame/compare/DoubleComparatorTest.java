@@ -18,8 +18,8 @@ public class DoubleComparatorTest {
     }
 
     @Test
-    public void compareWithSameDoublesWillReturnFalse() {
-        assertFalse(DoubleComparator.isDoubleLarger(1.11, 1.11));
+    public void compareWithSameDoublesWillReturnTrue() {
+        assertTrue(DoubleComparator.isDoubleLarger(1.11, 1.11));
     }
 
 }
