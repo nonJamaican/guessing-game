@@ -1,17 +1,19 @@
 package com.example.rachelhutchison.guessinggame.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.R;
+import com.example.rachelhutchison.guessinggame.compare.PlayerComparator;
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.playergenerator.RandomPlayerGenerator;
+import com.example.rachelhutchison.guessinggame.scoring.ScoreKeeper;
 import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment;
 import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment.HandllePlayerImageInteraction;
 
@@ -19,15 +21,18 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
 
     public static final String PLAYERS_DATA_EXTRA = "PLAYERS_DATA_EXTRA";
     private FanDuelPlayers fanduelPlayersData;
+    private String nameOfWinner;
 
     private RandomPlayerGenerator randomPlayerGenerator;
+    private ScoreKeeper scoreKeeper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guessing_game);
+        scoreKeeper = new ScoreKeeper();
         extractExtras();
-        configureNextButton(false);
+
         if (fanduelPlayersData == null) {
             displayErrorMessage();
             return;
@@ -42,14 +47,10 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
         }
     }
 
-    private void configureNextButton(boolean showing) {
-        Button nextButton = (Button) findViewById(R.id.guessing_next_button);
-        nextButton.setVisibility(showing ? View.VISIBLE : View.INVISIBLE);
-    }
-
     private void populatePlayerGameData() {
         Player player1 = randomPlayerGenerator.getRandomPlayer();
         Player player2 = randomPlayerGenerator.getRandomPlayer();
+        nameOfWinner = PlayerComparator.getFullNameOfHighestFppgRating(player1, player2);
         loadPlayerOneFragment(player1);
         loadPlayerTwoFragment(player2);
     }
@@ -93,9 +94,36 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
     }
 
     @Override
-    public void playerImageClicked(String playerName, String fppgRating) {
+    public void playerImageClicked(String playerName) {
         showFppgRatings();
-        configureNextButton(true);
+        boolean didIGuessCorrectly = didIGuessCorrectly(playerName);
+        calculateTheScore(didIGuessCorrectly);
+        displayGuessMessage(didIGuessCorrectly);
+    }
+
+    private void displayGuessMessage(boolean didIGuessCorrectly) {
+        new AlertDialog.Builder(this)
+                .setMessage(getGuessedMessage(didIGuessCorrectly))
+                .setTitle(R.string.guessed_dialog_result_title)
+                .setCancelable(false)
+                .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //todo the click
+                    }
+                }).create().show();
+    }
+
+    private String getGuessedMessage(boolean didIGuessCorrectly) {
+        return didIGuessCorrectly ? getString(R.string.guessed_dialog_correctly) : getString(R.string.guessed_dialog_wrong);
+    }
+
+    private void calculateTheScore(boolean didIGuessCorrectly) {
+        scoreKeeper.increaseScore(didIGuessCorrectly);
+    }
+
+    private boolean didIGuessCorrectly(String playerName) {
+        return nameOfWinner == null || playerName.equals(nameOfWinner);
     }
 
     private void showFppgRatings() {
@@ -104,5 +132,9 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
 
         PlayersFragment playerTwoFragment = (PlayersFragment) getFragmentManager().findFragmentById(R.id.player_two_compare_container);
         playerTwoFragment.showFppgRating();
+    }
+
+    public void setNameOfWinner(String nameOfWinner) {
+        this.nameOfWinner = nameOfWinner;
     }
 }

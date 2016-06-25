@@ -38,11 +38,4 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/guessing_next_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/next" />
-
 </RelativeLayout>

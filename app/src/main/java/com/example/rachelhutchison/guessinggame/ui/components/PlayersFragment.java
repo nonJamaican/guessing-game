@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rachelhutchison.guessinggame.MyApplication;
@@ -28,6 +29,7 @@ public class PlayersFragment extends Fragment {
     private String imageUrl;
     private ImageView errorImageView;
     private HandllePlayerImageInteraction mListner;
+    private ProgressBar progressBar;
 
     public PlayersFragment() {
 
@@ -86,6 +88,7 @@ public class PlayersFragment extends Fragment {
     }
 
     private void configureViews(View inflatedView) {
+        progressBar = (ProgressBar) inflatedView.findViewById(R.id.player_progress_indicator);
         playerNameView = (TextView) inflatedView.findViewById(R.id.player_name);
         fppgRatingView = (TextView) inflatedView.findViewById(R.id.player_fppg_rating);
         playerImageView = (ImageView) inflatedView.findViewById(R.id.players_image);
@@ -118,6 +121,7 @@ public class PlayersFragment extends Fragment {
 
     private void setPlayerImageVisible(boolean visible) {
         configureOnClickListeners();
+        progressBar.setVisibility(View.GONE);
         playerImageView.setVisibility(visible ? View.VISIBLE : View.GONE);
         errorImageView.setVisibility(visible ? View.GONE : View.VISIBLE);
     }
@@ -126,14 +130,13 @@ public class PlayersFragment extends Fragment {
         playerImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListner.playerImageClicked(playerName, fppgRating);
-                //todo call back with click
+                mListner.playerImageClicked(playerName);
             }
         });
     }
 
     public interface HandllePlayerImageInteraction {
-        void playerImageClicked(String playerName, String fppgRating);
+        void playerImageClicked(String playerName);
     }
 
     public TextView getPlayerNameView() {

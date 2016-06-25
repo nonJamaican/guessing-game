@@ -3,6 +3,7 @@ package com.example.rachelhutchison.guessinggame.ui.components;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rachelhutchison.guessinggame.MockImageRestService;
@@ -60,6 +61,13 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
     }
 
     @Test
+    public void beforeImageLoadWillShowProgressIndicator() {
+        activity = buildActivity();
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.player_progress_indicator);
+        assertEquals(View.VISIBLE, progressBar.getVisibility());
+    }
+
+    @Test
     public void onSuccessPlayerImageLoadWillHaveVisibleImageViewAndGoneErrorImage() {
         MockImageRestService mockImageRestService = new MockImageRestService();
         Picasso mockPicasso = mockImageRestService.buildMockRestService(mockImageRestService.getSuccessResponse);
@@ -67,8 +75,10 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
         activity = buildActivity();
         ImageView playerImage = (ImageView) activity.findViewById(R.id.players_image);
         ImageView errorImage = (ImageView) activity.findViewById(R.id.error_image);
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.player_progress_indicator);
         assertEquals(View.VISIBLE, playerImage.getVisibility());
         assertEquals(View.GONE, errorImage.getVisibility());
+        assertEquals(View.GONE, progressBar.getVisibility());
     }
 
     @Test
@@ -79,8 +89,10 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
         activity = buildActivity();
         ImageView playerImage = (ImageView) activity.findViewById(R.id.players_image);
         ImageView errorImage = (ImageView) activity.findViewById(R.id.error_image);
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.player_progress_indicator);
         assertEquals(View.GONE, playerImage.getVisibility());
         assertEquals(View.VISIBLE, errorImage.getVisibility());
+        assertEquals(View.GONE, progressBar.getVisibility());
     }
 
     private GuessingActivity buildActivity() {

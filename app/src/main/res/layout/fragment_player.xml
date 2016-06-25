@@ -10,6 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ProgressBar
+            android:id="@+id/player_progress_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/activity_horizontal_margin"
+            />
+
         <ImageView
             android:id="@+id/players_image"
             android:layout_width="match_parent"
