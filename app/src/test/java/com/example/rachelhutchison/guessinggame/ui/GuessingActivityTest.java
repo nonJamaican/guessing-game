@@ -1,12 +1,16 @@
 package com.example.rachelhutchison.guessinggame.ui;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.rachelhutchison.guessinggame.R;
 import com.example.rachelhutchison.guessinggame.RobolectricUnitTests;
+import com.example.rachelhutchison.guessinggame.model.DefaultImage;
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 import com.example.rachelhutchison.guessinggame.model.Player;
+import com.example.rachelhutchison.guessinggame.model.PlayerImage;
+import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment;
 
 import org.junit.Test;
 import org.robolectric.Robolectric;
@@ -29,11 +33,43 @@ public class GuessingActivityTest extends RobolectricUnitTests {
 
     @Test
     public void onCreateShouldShowInstructionMessageToUser() {
-        Intent intent = new Intent(getApplication(), GuessingActivity.class);
-        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelPlayersWithOnlyOnePlayer());
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(intent).create().visible().get();
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
         TextView instructionMessage = (TextView) guessingActivity.findViewById(R.id.guessing_game_instruction_message);
         assertEquals(guessingActivity.getString(R.string.guessing_game_instruction_message), instructionMessage.getText());
+    }
+
+    @Test
+    public void onCreateShouldShowPlayerOneImageAndName() {
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        PlayersFragment fragment = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_one_compare_container);
+        assertEquals(View.VISIBLE, fragment.getPlayerImageView().getVisibility());
+        assertEquals("bobby smith", fragment.getPlayerNameView().getText());
+    }
+
+    @Test
+    public void onCreateShouldShowPlayerTwoImageAndName() {
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        PlayersFragment fragment = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_two_compare_container);
+        assertEquals(View.VISIBLE, fragment.getPlayerImageView().getVisibility());
+        assertEquals("bobby smith", fragment.getPlayerNameView().getText());
+    }
+
+    @Test
+    public void onPlayerImageClickShouldShowBothPlayersFppgRatings() {
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        PlayersFragment fragment1 = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_one_compare_container);
+        PlayersFragment fragment2 = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_two_compare_container);
+        assertEquals(View.INVISIBLE, fragment1.getFppgRatingView().getVisibility());
+        assertEquals(View.INVISIBLE, fragment2.getFppgRatingView().getVisibility());
+        guessingActivity.playerImageClicked("anyName", "anyRating");
+        assertEquals(View.VISIBLE, fragment1.getFppgRatingView().getVisibility());
+        assertEquals(View.VISIBLE, fragment2.getFppgRatingView().getVisibility());
+    }
+
+    private Intent buildOnePlayerIntent() {
+        Intent intent = new Intent(getApplication(), GuessingActivity.class);
+        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelPlayersWithOnlyOnePlayer());
+        return intent;
     }
 
     private FanDuelPlayers buildFanDuelPlayersWithOnlyOnePlayer() {
@@ -49,8 +85,15 @@ public class GuessingActivityTest extends RobolectricUnitTests {
         player.setFirstName("bobby");
         player.setLastName("smith");
         player.setFppg(34.2356665);
-        player.setPlayerCardUrl("url");
+        player.setImages(buildPlayerImages());
         return player;
     }
 
+    private PlayerImage buildPlayerImages() {
+        PlayerImage images = new PlayerImage();
+        DefaultImage defaultImage = new DefaultImage();
+        defaultImage.setUrl("https://d17odppiik753x.cloudfront.net/playerimages/nba/12342.png");
+        images.setDefaultImage(defaultImage);
+        return images;
+    }
 }

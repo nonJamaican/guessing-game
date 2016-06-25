@@ -2,6 +2,7 @@ package com.example.rachelhutchison.guessinggame.ui.components;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class PlayersFragment extends Fragment {
     private String playerName;
     private String imageUrl;
     private ImageView errorImageView;
+    private HandllePlayerImageInteraction mListner;
 
     public PlayersFragment() {
 
@@ -52,6 +54,22 @@ public class PlayersFragment extends Fragment {
         return inflatedView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListner = HandllePlayerImageInteraction.class.cast(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListner = null;
+    }
+
+    public void showFppgRating() {
+        fppgRatingView.setVisibility(View.VISIBLE);
+    }
+
     private void configureImageView() {
         Activity context = getActivity();
         if (context == null) {
@@ -67,7 +85,7 @@ public class PlayersFragment extends Fragment {
         return application.getImageService();
     }
 
-    protected void configureViews(View inflatedView) {
+    private void configureViews(View inflatedView) {
         playerNameView = (TextView) inflatedView.findViewById(R.id.player_name);
         fppgRatingView = (TextView) inflatedView.findViewById(R.id.player_fppg_rating);
         playerImageView = (ImageView) inflatedView.findViewById(R.id.players_image);
@@ -99,7 +117,34 @@ public class PlayersFragment extends Fragment {
     }
 
     private void setPlayerImageVisible(boolean visible) {
+        configureOnClickListeners();
         playerImageView.setVisibility(visible ? View.VISIBLE : View.GONE);
         errorImageView.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
+    private void configureOnClickListeners() {
+        playerImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListner.playerImageClicked(playerName, fppgRating);
+                //todo call back with click
+            }
+        });
+    }
+
+    public interface HandllePlayerImageInteraction {
+        void playerImageClicked(String playerName, String fppgRating);
+    }
+
+    public TextView getPlayerNameView() {
+        return playerNameView;
+    }
+
+    public ImageView getPlayerImageView() {
+        return playerImageView;
+    }
+
+    public TextView getFppgRatingView() {
+        return fppgRatingView;
     }
 }

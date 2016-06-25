@@ -8,8 +8,10 @@ import android.widget.TextView;
 import com.example.rachelhutchison.guessinggame.MockImageRestService;
 import com.example.rachelhutchison.guessinggame.R;
 import com.example.rachelhutchison.guessinggame.RobolectricUnitTests;
+import com.example.rachelhutchison.guessinggame.model.DefaultImage;
 import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 import com.example.rachelhutchison.guessinggame.model.Player;
+import com.example.rachelhutchison.guessinggame.model.PlayerImage;
 import com.example.rachelhutchison.guessinggame.ui.GuessingActivity;
 import com.squareup.picasso.Picasso;
 
@@ -100,8 +102,15 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
         player.setFirstName(FIRSTNAME_BOBBY);
         player.setLastName(LASTNAME_SMITH);
         player.setFppg(FPPG_RATING);
-        player.setPlayerCardUrl(URL);
+        player.setImages(buildPlayerImages());
         return player;
     }
 
+    private PlayerImage buildPlayerImages() {
+        PlayerImage images = new PlayerImage();
+        DefaultImage defaultImage = new DefaultImage();
+        defaultImage.setUrl(URL);
+        images.setDefaultImage(defaultImage);
+        return images;
+    }
 }

@@ -11,8 +11,9 @@ import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
 import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.playergenerator.RandomPlayerGenerator;
 import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment;
+import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment.HandllePlayerImageInteraction;
 
-public class GuessingActivity extends AppCompatActivity {
+public class GuessingActivity extends AppCompatActivity implements HandllePlayerImageInteraction {
 
     public static final String PLAYERS_DATA_EXTRA = "PLAYERS_DATA_EXTRA";
     private FanDuelPlayers fanduelPlayersData;
@@ -80,5 +81,18 @@ public class GuessingActivity extends AppCompatActivity {
 
     private void displayErrorMessage() {
         Toast.makeText(this, R.string.network_error_message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void playerImageClicked(String playerName, String fppgRating) {
+        showFppgRatings();
+    }
+
+    private void showFppgRatings() {
+        PlayersFragment playerOneFragment = (PlayersFragment) getFragmentManager().findFragmentById(R.id.player_one_compare_container);
+        playerOneFragment.showFppgRating();
+
+        PlayersFragment playerTwoFragment = (PlayersFragment) getFragmentManager().findFragmentById(R.id.player_two_compare_container);
+        playerTwoFragment.showFppgRating();
     }
 }
