@@ -2,6 +2,7 @@ package com.example.rachelhutchison.guessinggame.ui;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.rachelhutchison.guessinggame.R;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GuessingActivityTest extends RobolectricUnitTests {
 
@@ -36,6 +38,13 @@ public class GuessingActivityTest extends RobolectricUnitTests {
         guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
         TextView instructionMessage = (TextView) guessingActivity.findViewById(R.id.guessing_game_instruction_message);
         assertEquals(guessingActivity.getString(R.string.guessing_game_instruction_message), instructionMessage.getText());
+    }
+
+    @Test
+    public void onCreateWillHideNextButton() {
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        Button button = (Button) guessingActivity.findViewById(R.id.guessing_next_button);
+        assertEquals(View.INVISIBLE, button.getVisibility());
     }
 
     @Test
@@ -64,6 +73,16 @@ public class GuessingActivityTest extends RobolectricUnitTests {
         guessingActivity.playerImageClicked("anyName", "anyRating");
         assertEquals(View.VISIBLE, fragment1.getFppgRatingView().getVisibility());
         assertEquals(View.VISIBLE, fragment2.getFppgRatingView().getVisibility());
+    }
+
+    @Test
+    public void onPlayerImageClickWillDisplayNextButton() {
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        guessingActivity.playerImageClicked("anyName", "anyRating");
+        Button button = (Button) guessingActivity.findViewById(R.id.guessing_next_button);
+        assertEquals(View.VISIBLE, button.getVisibility());
+        assertEquals(guessingActivity.getString(R.string.next), button.getText());
+        assertTrue(button.isEnabled());
     }
 
     private Intent buildOnePlayerIntent() {

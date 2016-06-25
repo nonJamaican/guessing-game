@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.R;
@@ -25,7 +27,7 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guessing_game);
         extractExtras();
-
+        configureNextButton(false);
         if (fanduelPlayersData == null) {
             displayErrorMessage();
             return;
@@ -38,6 +40,11 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
         } else {
             populatePlayerGameData();
         }
+    }
+
+    private void configureNextButton(boolean showing) {
+        Button nextButton = (Button) findViewById(R.id.guessing_next_button);
+        nextButton.setVisibility(showing ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void populatePlayerGameData() {
@@ -86,6 +93,7 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
     @Override
     public void playerImageClicked(String playerName, String fppgRating) {
         showFppgRatings();
+        configureNextButton(true);
     }
 
     private void showFppgRatings() {
