@@ -71,7 +71,7 @@ public class GuessingActivity extends AppCompatActivity {
     }
 
     private String getPlayerImageUrl(Player player) {
-        return player.getPlayerCardUrl();
+        return player.getImages().getDefaultImage().getUrl();
     }
 
     private void extractExtras() {
