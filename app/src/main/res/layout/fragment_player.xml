@@ -23,16 +23,16 @@
             android:id="@+id/players_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:adjustViewBounds="true"
-            android:padding="@dimen/activity_horizontal_margin"
             />
 
         <ImageView
             android:id="@+id/error_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:adjustViewBounds="true"
-            android:padding="@dimen/activity_horizontal_margin"
             android:src="@drawable/broken_android"
             android:visibility="gone"
             tools:visibility="visible"
@@ -44,8 +44,8 @@
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:gravity="center"
-        android:padding="@dimen/activity_horizontal_margin"
         tools:text="Johnson Robertson" />
 
     <TextView
