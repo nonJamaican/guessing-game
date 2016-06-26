@@ -1,7 +1,9 @@
 package com.example.rachelhutchison.guessinggame.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,11 @@ public class ResultActivity extends AppCompatActivity {
 
     public String getAttemptsMessage() {
         return isAttemptsInvalid() ? getString(R.string.result_try_less_attempts) : getString(R.string.result_number_of_attempts, numberOfAttempts);
+    }
 
+    public void continuePressed(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

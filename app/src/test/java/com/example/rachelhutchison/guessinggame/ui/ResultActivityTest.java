@@ -1,6 +1,7 @@
 package com.example.rachelhutchison.guessinggame.ui;
 
 import android.content.Intent;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.rachelhutchison.guessinggame.R;
@@ -8,9 +9,11 @@ import com.example.rachelhutchison.guessinggame.RobolectricUnitTests;
 
 import org.junit.Test;
 import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowToast;
 
 import static org.junit.Assert.assertEquals;
+import static org.robolectric.Shadows.shadowOf;
 
 public class ResultActivityTest extends RobolectricUnitTests {
 
@@ -30,6 +33,13 @@ public class ResultActivityTest extends RobolectricUnitTests {
     }
 
     @Test
+    public void shouldHaveButtonConfiguredOnCreate() {
+        resultsActivity = Robolectric.buildActivity(ResultActivity.class).withIntent(buildIntent()).create().visible().get();
+        Button button = (Button) resultsActivity.findViewById(R.id.result_continue_button);
+        assertEquals(resultsActivity.getString(R.string.result_continue_button), button.getText());
+    }
+
+    @Test
     public void shouldDisplayNumberOfAttemptsItTookToUserWhenPassedInIntent() {
         resultsActivity = Robolectric.buildActivity(ResultActivity.class).withIntent(buildIntent()).create().visible().get();
         TextView attemptsView = (TextView) resultsActivity.findViewById(R.id.result_number_of_attempts);
@@ -41,6 +51,17 @@ public class ResultActivityTest extends RobolectricUnitTests {
         resultsActivity = Robolectric.buildActivity(ResultActivity.class).create().visible().get();
         TextView attemptsView = (TextView) resultsActivity.findViewById(R.id.result_number_of_attempts);
         assertEquals(resultsActivity.getString(R.string.result_try_less_attempts), attemptsView.getText());
+    }
+
+    @Test
+    public void shouldFinishActivityAndStartMainActivityOnContinueButtonPressed() {
+        resultsActivity = Robolectric.buildActivity(ResultActivity.class).withIntent(buildIntent()).create().visible().get();
+        Button button = (Button) resultsActivity.findViewById(R.id.result_continue_button);
+        button.performClick();
+        ShadowActivity shadow = shadowOf(resultsActivity);
+        Intent nextIntent = shadow.peekNextStartedActivity();
+        assertEquals(MainActivity.class.getName(), nextIntent.getComponent().getClassName());
+        assertEquals(Intent.FLAG_ACTIVITY_CLEAR_TOP, nextIntent.getFlags());
     }
 
     private Intent buildIntent() {

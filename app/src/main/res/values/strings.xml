@@ -19,6 +19,7 @@
     <string name="result_success_message">Congratulations!</string>
     <string name="result_number_of_attempts">You did 10 correct in only %1$d attempts. Try for better next time!</string>
     <string name="result_try_less_attempts">Try for less attempts next time!</string>
+    <string name="result_continue_button">PLAY AGAIN</string>
 
     <!-- error messages -->
     <string name="network_error_message">Sorry, something went wrong</string>
