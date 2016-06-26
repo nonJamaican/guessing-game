@@ -15,7 +15,13 @@
     <string name="guessed_dialog_result_title">Result</string>
     <string name="guessed_result_message">%1$d correct out of %2$d attempts</string>
 
+    <!-- result activity -->
+    <string name="result_success_message">Congratulations!</string>
+    <string name="result_number_of_attempts">You did 10 correct in only %1$d attempts. Try for better next time!</string>
+    <string name="result_try_less_attempts">Try for less attempts next time!</string>
+
     <!-- error messages -->
     <string name="network_error_message">Sorry, something went wrong</string>
+    <string name="attempts_load_error_message">Sorry, could not get the number of attempts</string>
 
 </resources>

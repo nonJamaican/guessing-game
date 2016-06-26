@@ -26,6 +26,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 public class GuessingActivityTest extends RobolectricUnitTests {
@@ -139,6 +140,8 @@ public class GuessingActivityTest extends RobolectricUnitTests {
         ShadowActivity shadow = shadowOf(guessingActivity);
         Intent nextIntent = shadow.peekNextStartedActivity();
         assertEquals(ResultActivity.class.getName(), nextIntent.getComponent().getClassName());
+        assertTrue(nextIntent.hasExtra(ResultActivity.NUMBER_OF_ATTEMPTS_EXTRA));
+        assertTrue(guessingActivity.isFinishing());
     }
 
     protected void increaseScoreToNineCorrect() {

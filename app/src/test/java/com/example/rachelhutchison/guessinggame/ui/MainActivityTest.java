@@ -80,6 +80,7 @@ public class MainActivityTest extends RobolectricUnitTests {
         ShadowActivity shadow = shadowOf(mainActivity);
         Intent nextIntent = shadow.peekNextStartedActivity();
         assertEquals(GuessingActivity.class.getName(), nextIntent.getComponent().getClassName());
+        assertTrue(nextIntent.hasExtra(GuessingActivity.PLAYERS_DATA_EXTRA));
     }
 
     private void delayThreadForRestRequestResponse() throws InterruptedException {

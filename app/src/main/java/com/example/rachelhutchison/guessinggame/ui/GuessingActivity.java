@@ -142,7 +142,9 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
 
     private void startResultActivity() {
         Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(ResultActivity.NUMBER_OF_ATTEMPTS_EXTRA, scoreKeeper.getNumberTries());
         startActivity(intent);
+        finish();
     }
 
     private String getGuessedMessage(boolean didIGuessCorrectly) {
