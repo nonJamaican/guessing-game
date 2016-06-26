@@ -9,60 +9,60 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class FanDuelPlayersTest {
+public class FanDuelResponseTest {
 
-    private FanDuelPlayers fanDuelPlayers;
+    private FanDuelResponse fanDuelResponse;
 
     @Before
     public void setUp() {
-        fanDuelPlayers = new FanDuelPlayers();
+        fanDuelResponse = new FanDuelResponse();
     }
 
     @Test
     public void hasMeta() {
-        assertNull(fanDuelPlayers.getMeta());
+        assertNull(fanDuelResponse.getMeta());
     }
 
     @Test
     public void metaWillReturnAsSet() {
         Meta meta = new Meta();
-        fanDuelPlayers.setMeta(meta);
-        assertEquals(meta, fanDuelPlayers.getMeta());
+        fanDuelResponse.setMeta(meta);
+        assertEquals(meta, fanDuelResponse.getMeta());
     }
 
     @Test
     public void hasFixtures() {
-        assertNull(fanDuelPlayers.getFixtures());
+        assertNull(fanDuelResponse.getFixtures());
     }
 
     @Test
     public void willReturnFixturesAsSet() {
         List<Fixture> fixtures = new ArrayList<>();
-        fanDuelPlayers.setFixtures(fixtures);
-        assertEquals(fixtures, fanDuelPlayers.getFixtures());
+        fanDuelResponse.setFixtures(fixtures);
+        assertEquals(fixtures, fanDuelResponse.getFixtures());
     }
 
     @Test
     public void hasPlayers() {
-        assertNull(fanDuelPlayers.getPlayers());
+        assertNull(fanDuelResponse.getPlayers());
     }
 
     @Test
     public void willReturnPlayersAsSet() {
         List<Player> players = new ArrayList<>();
-        fanDuelPlayers.setPlayers(players);
-        assertEquals(players, fanDuelPlayers.getPlayers());
+        fanDuelResponse.setPlayers(players);
+        assertEquals(players, fanDuelResponse.getPlayers());
     }
 
     @Test
     public void hasTeams() {
-        assertNull(fanDuelPlayers.getTeams());
+        assertNull(fanDuelResponse.getTeams());
     }
 
     @Test
     public void willReturnTeamsAsSet() {
         List<Team> teams = new ArrayList<>();
-        fanDuelPlayers.setTeams(teams);
-        assertEquals(teams, fanDuelPlayers.getTeams());
+        fanDuelResponse.setTeams(teams);
+        assertEquals(teams, fanDuelResponse.getTeams());
     }
 }

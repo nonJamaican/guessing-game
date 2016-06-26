@@ -1,6 +1,6 @@
 package com.example.rachelhutchison.guessinggame.playergenerator;
 
-import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.FanDuelResponse;
 import com.example.rachelhutchison.guessinggame.model.Player;
 
 import java.util.List;
@@ -10,8 +10,8 @@ public class RandomPlayerGenerator {
 
     private List<Player> allPlayers;
 
-    public RandomPlayerGenerator(FanDuelPlayers fanDuelPlayersData) {
-        allPlayers = fanDuelPlayersData.getPlayers();
+    public RandomPlayerGenerator(FanDuelResponse fanDuelResponseData) {
+        allPlayers = fanDuelResponseData.getPlayers();
     }
 
     public List<Player> getAllPlayers() {

@@ -1,6 +1,6 @@
 package com.example.rachelhutchison.guessinggame.playergenerator;
 
-import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.FanDuelResponse;
 import com.example.rachelhutchison.guessinggame.model.Player;
 
 import org.junit.Before;
@@ -18,8 +18,8 @@ public class RandomPlayerGeneratorTest {
 
     @Before
     public void setUp() {
-        FanDuelPlayers fanDuelPlayers = populate5RandomFanDuelPlayers();
-        randomPlayerGenerator = new RandomPlayerGenerator(fanDuelPlayers);
+        FanDuelResponse fanDuelResponse = populate5RandomFanDuelPlayers();
+        randomPlayerGenerator = new RandomPlayerGenerator(fanDuelResponse);
     }
 
     @Test
@@ -37,14 +37,14 @@ public class RandomPlayerGeneratorTest {
         assertNotNull(randomPlayerGenerator.getRandomPlayer());
     }
 
-    private FanDuelPlayers populate5RandomFanDuelPlayers() {
-        FanDuelPlayers fanDuelPlayers = new FanDuelPlayers();
+    private FanDuelResponse populate5RandomFanDuelPlayers() {
+        FanDuelResponse fanDuelResponse = new FanDuelResponse();
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             players.add(buildNewNumberedPlayer(i));
         }
-        fanDuelPlayers.setPlayers(players);
-        return fanDuelPlayers;
+        fanDuelResponse.setPlayers(players);
+        return fanDuelResponse;
     }
 
     private Player buildNewNumberedPlayer(int number) {

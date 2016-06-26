@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.MyApplication;
 import com.example.rachelhutchison.guessinggame.R;
-import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.FanDuelResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +18,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FanDuelPlayers fanDuelPlayers;
+    private FanDuelResponse fanDuelResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void continuePressed(View view) {
         Intent intent = new Intent(this, GuessingActivity.class);
-        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, fanDuelPlayers);
+        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, fanDuelResponse);
         startActivity(intent);
     }
 
@@ -45,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
     private void requestPlayerDataRequest() {
         final MyApplication myApplication = (MyApplication) getApplication();
 
-        myApplication.getRestService().getFanDuelPlayerData().enqueue(new Callback<FanDuelPlayers>() {
+        myApplication.getRestService().getFanDuelPlayerData().enqueue(new Callback<FanDuelResponse>() {
             @Override
-            public void onResponse(Call<FanDuelPlayers> call, Response<FanDuelPlayers> response) {
-                fanDuelPlayers = response.body();
+            public void onResponse(Call<FanDuelResponse> call, Response<FanDuelResponse> response) {
+                fanDuelResponse = response.body();
                 setContinueButtonEnabled(true);
             }
 
             @Override
-            public void onFailure(Call<FanDuelPlayers> call, Throwable t) {
+            public void onFailure(Call<FanDuelResponse> call, Throwable t) {
                 displayErrorMessage();
             }
 

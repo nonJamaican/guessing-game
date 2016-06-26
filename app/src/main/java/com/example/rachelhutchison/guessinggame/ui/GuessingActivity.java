@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.R;
 import com.example.rachelhutchison.guessinggame.compare.PlayerComparator;
-import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.FanDuelResponse;
 import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.playergenerator.RandomPlayerGenerator;
 import com.example.rachelhutchison.guessinggame.scoring.ScoreKeeper;
@@ -22,7 +22,7 @@ import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment.Ha
 public class GuessingActivity extends AppCompatActivity implements HandlePlayerImageInteraction {
 
     public static final String PLAYERS_DATA_EXTRA = "PLAYERS_DATA_EXTRA";
-    private FanDuelPlayers fanduelPlayersData;
+    private FanDuelResponse fanduelResponseData;
     private String nameOfWinner;
 
     private RandomPlayerGenerator randomPlayerGenerator;
@@ -35,7 +35,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         setContentView(R.layout.activity_guessing_game);
         extractExtras();
         configureUi();
-        if (fanduelPlayersData == null) {
+        if (fanduelResponseData == null) {
             displayErrorMessage();
             return;
         }
@@ -61,7 +61,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
 
     private void buildComponents() {
         scoreKeeper = new ScoreKeeper();
-        randomPlayerGenerator = new RandomPlayerGenerator(fanduelPlayersData);
+        randomPlayerGenerator = new RandomPlayerGenerator(fanduelResponseData);
     }
 
     private void refreshResultMessage() {
@@ -99,7 +99,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
     }
 
     private void extractExtras() {
-        fanduelPlayersData = (FanDuelPlayers) getIntent().getSerializableExtra(PLAYERS_DATA_EXTRA);
+        fanduelResponseData = (FanDuelResponse) getIntent().getSerializableExtra(PLAYERS_DATA_EXTRA);
     }
 
     private void displayErrorMessage() {

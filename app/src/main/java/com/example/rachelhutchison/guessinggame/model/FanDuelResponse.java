@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class FanDuelPlayers implements Serializable {
+public class FanDuelResponse implements Serializable {
 
     @SerializedName("_meta")
     private Meta meta;

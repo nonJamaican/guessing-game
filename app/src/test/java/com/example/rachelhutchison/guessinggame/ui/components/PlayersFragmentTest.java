@@ -10,7 +10,7 @@ import com.example.rachelhutchison.guessinggame.MockImageRestService;
 import com.example.rachelhutchison.guessinggame.R;
 import com.example.rachelhutchison.guessinggame.RobolectricUnitTests;
 import com.example.rachelhutchison.guessinggame.model.DefaultImage;
-import com.example.rachelhutchison.guessinggame.model.FanDuelPlayers;
+import com.example.rachelhutchison.guessinggame.model.FanDuelResponse;
 import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.model.PlayerImage;
 import com.example.rachelhutchison.guessinggame.ui.GuessingActivity;
@@ -132,12 +132,12 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
         return Robolectric.buildActivity(GuessingActivity.class).withIntent(intent).create().start().get();
     }
 
-    private FanDuelPlayers buildFanDuelPlayersWithOnlyOnePlayer() {
-        FanDuelPlayers fanDuelPlayers = new FanDuelPlayers();
+    private FanDuelResponse buildFanDuelPlayersWithOnlyOnePlayer() {
+        FanDuelResponse fanDuelResponse = new FanDuelResponse();
         List<Player> players = new ArrayList<>();
         players.add(buildPlayer());
-        fanDuelPlayers.setPlayers(players);
-        return fanDuelPlayers;
+        fanDuelResponse.setPlayers(players);
+        return fanDuelResponse;
     }
 
     private Player buildPlayer() {
