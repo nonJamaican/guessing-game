@@ -23,6 +23,7 @@ public class PlayersFragment extends Fragment {
     private static final String PLAYER_NAME_EXTRA = "PLAYER_NAME_EXTRA";
     private static final String FPPG_RATING_EXTRA = "FPPG_RATING_EXTRA";
     private static final String IMAGE_URL_EXTRA = "IMAGE_URL_EXTRA";
+    private static final String FPPG_FORMAT = "#.###";
     private TextView playerNameView;
     private TextView fppgRatingView;
     private ImageView playerImageView;
@@ -30,7 +31,7 @@ public class PlayersFragment extends Fragment {
     private String playerName;
     private String imageUrl;
     private ImageView errorImageView;
-    private HandlePlayerImageInteraction mListner;
+    private HandlePlayerImageInteraction playerListener;
     private ProgressBar progressBar;
 
     public PlayersFragment() {
@@ -38,12 +39,8 @@ public class PlayersFragment extends Fragment {
     }
 
     public static PlayersFragment newInstance(String imageUrl, String playerName, String fppgRating) {
-        Bundle args = new Bundle();
-        args.putString(IMAGE_URL_EXTRA, imageUrl);
-        args.putString(PLAYER_NAME_EXTRA, playerName);
-        args.putString(FPPG_RATING_EXTRA, fppgRating);
         PlayersFragment fragment = new PlayersFragment();
-        fragment.setArguments(args);
+        fragment.setArguments(buildArguments(imageUrl, playerName, fppgRating));
         return fragment;
     }
 
@@ -61,21 +58,29 @@ public class PlayersFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListner = HandlePlayerImageInteraction.class.cast(context);
+        playerListener = HandlePlayerImageInteraction.class.cast(context);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListner = null;
+        playerListener = null;
     }
 
     public void showFppgRating() {
         fppgRatingView.setVisibility(View.VISIBLE);
     }
 
+    private static Bundle buildArguments(String imageUrl, String playerName, String fppgRating) {
+        Bundle args = new Bundle();
+        args.putString(IMAGE_URL_EXTRA, imageUrl);
+        args.putString(PLAYER_NAME_EXTRA, playerName);
+        args.putString(FPPG_RATING_EXTRA, fppgRating);
+        return args;
+    }
+
     private String formatFppgRating() {
-        DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        DecimalFormat decimalFormat = new DecimalFormat(FPPG_FORMAT);
         return decimalFormat.format(Double.valueOf(fppgRating));
     }
 
@@ -84,7 +89,6 @@ public class PlayersFragment extends Fragment {
         if (context == null) {
             setPlayerImageVisible(false);
         } else {
-            // new never used before, interested to see how it works. :)
             makeImageRequest(getImageService(context), imageUrl, playerImageView);
         }
     }
@@ -154,7 +158,7 @@ public class PlayersFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListner.playerImageClicked(playerName);
+                playerListener.playerImageClicked(playerName);
             }
         };
     }

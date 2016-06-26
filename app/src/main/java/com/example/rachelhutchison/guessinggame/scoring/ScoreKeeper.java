@@ -2,6 +2,7 @@ package com.example.rachelhutchison.guessinggame.scoring;
 
 public class ScoreKeeper {
 
+    private static final int GAME_END_LIMIT = 10;
     private int correctGuesses;
     private int incorrectGuesses;
 
@@ -30,6 +31,6 @@ public class ScoreKeeper {
     }
 
     public boolean isGameComplete() {
-        return correctGuesses >= 10;
+        return correctGuesses >= GAME_END_LIMIT;
     }
 }

@@ -33,10 +33,7 @@ public class MyApplication extends android.app.Application {
     }
 
     private Picasso getPicasso() {
-        if (getBaseContext() == null) {
-            return null;
-        }
-        return Picasso.with(getBaseContext());
+        return getBaseContext() == null ? null : Picasso.with(getBaseContext());
     }
 
     public Picasso getImageService() {

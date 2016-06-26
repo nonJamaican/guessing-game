@@ -24,7 +24,6 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
     public static final String PLAYERS_DATA_EXTRA = "PLAYERS_DATA_EXTRA";
     private FanDuelResponse fanDuelResponse;
     private String nameOfWinner;
-
     private RandomPlayerGenerator randomPlayerGenerator;
     private ScoreKeeper scoreKeeper;
     private TextView resultMessageView;
@@ -35,19 +34,38 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         setContentView(R.layout.activity_guessing_game);
         extractExtras();
         configureUi();
-        if (fanDuelResponse == null) {
-            displayErrorMessage();
-            return;
-        }
+        initialiseGame(savedInstanceState);
+    }
 
+    @Override
+    public void playerImageClicked(String playerName) {
+        showFppgRatings();
+        boolean didIGuessCorrectly = didIGuessCorrectly(playerName);
+        calculateTheScore(didIGuessCorrectly);
+        refreshResultMessage();
+        displayGuessMessage(didIGuessCorrectly);
+    }
+
+    private void initialiseGame(Bundle savedInstanceState) {
+        if (fanDuelResponse == null) {
+            handleEmptyResponse();
+        } else {
+            initialiseState(savedInstanceState);
+        }
+    }
+
+    private void initialiseState(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            initialiseNewGame();
+        } else {
+            onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    private void initialiseNewGame() {
         buildComponents();
         refreshResultMessage();
-
-        if (savedInstanceState != null) {
-            onRestoreInstanceState(savedInstanceState);
-        } else {
-            buildGameRound();
-        }
+        buildGameRound();
     }
 
     private void buildGameRound() {
@@ -80,7 +98,10 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         String url = getPlayerImageUrl(player);
         String playerName = getPlayerDisplayName(player);
         String fppgRating = getFppgRating(player);
+        buildPlayerFragment(containerView, url, playerName, fppgRating);
+    }
 
+    private void buildPlayerFragment(int containerView, String url, String playerName, String fppgRating) {
         FragmentManager fragmentManager = getFragmentManager();
         Fragment playerFragment = PlayersFragment.newInstance(url, playerName, fppgRating);
         fragmentManager.beginTransaction().replace(containerView, playerFragment).commit();
@@ -102,17 +123,8 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         fanDuelResponse = (FanDuelResponse) getIntent().getSerializableExtra(PLAYERS_DATA_EXTRA);
     }
 
-    private void displayErrorMessage() {
+    private void handleEmptyResponse() {
         Toast.makeText(this, R.string.network_error_message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void playerImageClicked(String playerName) {
-        showFppgRatings();
-        boolean didIGuessCorrectly = didIGuessCorrectly(playerName);
-        calculateTheScore(didIGuessCorrectly);
-        refreshResultMessage();
-        displayGuessMessage(didIGuessCorrectly);
     }
 
     private void displayGuessMessage(boolean didIGuessCorrectly) {
