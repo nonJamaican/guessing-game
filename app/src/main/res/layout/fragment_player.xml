@@ -28,6 +28,8 @@
             android:layout_marginRight="@dimen/activity_players_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:adjustViewBounds="true"
+            android:background="#FFFFFF"
+            android:padding="@dimen/activity_border_margin"
             />
 
         <ImageView
@@ -39,7 +41,7 @@
             android:layout_marginRight="@dimen/activity_players_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:adjustViewBounds="true"
-            android:src="@drawable/broken_android"
+            android:src="@drawable/portrait_silhouette"
             android:visibility="gone"
             tools:visibility="visible"
             />
