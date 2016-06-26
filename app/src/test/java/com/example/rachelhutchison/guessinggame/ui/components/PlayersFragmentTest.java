@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PlayersFragmentTest extends RobolectricUnitTests {
 
@@ -93,6 +95,34 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
         assertEquals(View.GONE, playerImage.getVisibility());
         assertEquals(View.VISIBLE, errorImage.getVisibility());
         assertEquals(View.GONE, progressBar.getVisibility());
+    }
+
+    @Test
+    public void successPlayerLoadPlayerImageAndNameWillBeClickAble() {
+        MockImageRestService mockImageRestService = new MockImageRestService();
+        Picasso mockPicasso = mockImageRestService.buildMockRestService(mockImageRestService.getSuccessResponse);
+        getApplication().setImageService(mockPicasso);
+        activity = buildActivity();
+        ImageView playerImage = (ImageView) activity.findViewById(R.id.players_image);
+        ImageView errorImage = (ImageView) activity.findViewById(R.id.error_image);
+        TextView playerName = (TextView) activity.findViewById(R.id.player_name);
+        assertTrue(playerImage.isClickable());
+        assertFalse(errorImage.isClickable());
+        assertTrue(playerName.isClickable());
+    }
+
+    @Test
+    public void onFailurePlayerImageLoadErrorImageWillBeClickableAndName() {
+        MockImageRestService mockImageRestService = new MockImageRestService();
+        Picasso mockPicasso = mockImageRestService.buildMockRestService(mockImageRestService.getErrorResponse);
+        getApplication().setImageService(mockPicasso);
+        activity = buildActivity();
+        ImageView playerImage = (ImageView) activity.findViewById(R.id.players_image);
+        ImageView errorImage = (ImageView) activity.findViewById(R.id.error_image);
+        TextView playerName = (TextView) activity.findViewById(R.id.player_name);
+        assertFalse(playerImage.isClickable());
+        assertTrue(errorImage.isClickable());
+        assertTrue(playerName.isClickable());
     }
 
     private GuessingActivity buildActivity() {

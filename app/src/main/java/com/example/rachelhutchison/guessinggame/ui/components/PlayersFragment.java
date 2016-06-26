@@ -28,7 +28,7 @@ public class PlayersFragment extends Fragment {
     private String playerName;
     private String imageUrl;
     private ImageView errorImageView;
-    private HandllePlayerImageInteraction mListner;
+    private HandlePlayerImageInteraction mListner;
     private ProgressBar progressBar;
 
     public PlayersFragment() {
@@ -50,7 +50,7 @@ public class PlayersFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.fragment_player, container, false);
         configureViews(inflatedView);
         extractSuppliedArguments();
-        setViewText(playerNameView, playerName);
+        configurePlayerNameView();
         setViewText(fppgRatingView, fppgRating);
         configureImageView();
         return inflatedView;
@@ -59,7 +59,7 @@ public class PlayersFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListner = HandllePlayerImageInteraction.class.cast(context);
+        mListner = HandlePlayerImageInteraction.class.cast(context);
     }
 
     @Override
@@ -80,6 +80,11 @@ public class PlayersFragment extends Fragment {
             // new never used before, interested to see how it works. :)
             makeImageRequest(getImageService(context), imageUrl, playerImageView);
         }
+    }
+
+    private void configurePlayerNameView() {
+        setViewText(playerNameView, playerName);
+        configureNameOnClickListener();
     }
 
     private Picasso getImageService(Activity context) {
@@ -119,23 +124,35 @@ public class PlayersFragment extends Fragment {
         });
     }
 
-    private void setPlayerImageVisible(boolean visible) {
-        configureOnClickListeners();
+    private void setPlayerImageVisible(boolean playerImageVisible) {
+        configureImageOnClickListener(playerImageVisible);
         progressBar.setVisibility(View.GONE);
-        playerImageView.setVisibility(visible ? View.VISIBLE : View.GONE);
-        errorImageView.setVisibility(visible ? View.GONE : View.VISIBLE);
+        playerImageView.setVisibility(playerImageVisible ? View.VISIBLE : View.GONE);
+        errorImageView.setVisibility(playerImageVisible ? View.GONE : View.VISIBLE);
     }
 
-    private void configureOnClickListeners() {
-        playerImageView.setOnClickListener(new View.OnClickListener() {
+    private void configureNameOnClickListener() {
+        playerNameView.setOnClickListener(buildViewClickListener());
+    }
+
+    private void configureImageOnClickListener(boolean playerImageVisible) {
+        if (playerImageVisible) {
+            playerImageView.setOnClickListener(buildViewClickListener());
+        } else {
+            errorImageView.setOnClickListener(buildViewClickListener());
+        }
+    }
+
+    private View.OnClickListener buildViewClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListner.playerImageClicked(playerName);
             }
-        });
+        };
     }
 
-    public interface HandllePlayerImageInteraction {
+    public interface HandlePlayerImageInteraction {
         void playerImageClicked(String playerName);
     }
 

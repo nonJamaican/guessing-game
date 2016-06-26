@@ -17,9 +17,9 @@ import com.example.rachelhutchison.guessinggame.model.Player;
 import com.example.rachelhutchison.guessinggame.playergenerator.RandomPlayerGenerator;
 import com.example.rachelhutchison.guessinggame.scoring.ScoreKeeper;
 import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment;
-import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment.HandllePlayerImageInteraction;
+import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment.HandlePlayerImageInteraction;
 
-public class GuessingActivity extends AppCompatActivity implements HandllePlayerImageInteraction {
+public class GuessingActivity extends AppCompatActivity implements HandlePlayerImageInteraction {
 
     public static final String PLAYERS_DATA_EXTRA = "PLAYERS_DATA_EXTRA";
     private FanDuelPlayers fanduelPlayersData;
