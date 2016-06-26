@@ -17,6 +17,7 @@ import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment;
 import org.junit.Test;
 import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowAlertDialog;
 import org.robolectric.shadows.ShadowToast;
 
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.robolectric.Shadows.shadowOf;
 
 public class GuessingActivityTest extends RobolectricUnitTests {
 
@@ -115,6 +118,33 @@ public class GuessingActivityTest extends RobolectricUnitTests {
         guessingActivity.playerImageClicked("anyName");
         TextView guessResult = (TextView) guessingActivity.findViewById(R.id.guesses_result);
         assertEquals(guessingActivity.getString(R.string.guessed_result_message, 0, 1), guessResult.getText());
+    }
+
+    @Test
+    public void onPositiveButtonClickFromResultDialogWillReloadNewPlayers() {
+        buildActivity(buildOnePlayerIntent());
+        guessingActivity.playerImageClicked("bobby smith");
+        AlertDialog latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog();
+        latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+        assertFalse(guessingActivity.isFinishing());
+    }
+
+    @Test
+    public void onPositiveButtonClickFromResultDialogIfGameEndConditionsReachedWillStartResultActivity() {
+        buildActivity(buildOnePlayerIntent());
+        increaseScoreToNineCorrect();
+        guessingActivity.playerImageClicked("bobby smith");
+        AlertDialog latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog();
+        latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+        ShadowActivity shadow = shadowOf(guessingActivity);
+        Intent nextIntent = shadow.peekNextStartedActivity();
+        assertEquals(ResultActivity.class.getName(), nextIntent.getComponent().getClassName());
+    }
+
+    protected void increaseScoreToNineCorrect() {
+        for (int i = 0; i < 9; i++) {
+            guessingActivity.getScoreKeeper().increaseScore(true);
+        }
     }
 
     private void buildActivity(Intent intent) {

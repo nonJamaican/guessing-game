@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
 
     private RandomPlayerGenerator randomPlayerGenerator;
     private ScoreKeeper scoreKeeper;
-    private TextView resultMessage;
+    private TextView resultMessageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,16 +47,21 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
         if (savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         } else {
-            populatePlayerGameData();
+            buildGameRound();
         }
     }
 
+    private void buildGameRound() {
+        nameOfWinner = null;
+        populatePlayerGameData();
+    }
+
     private void configureUi() {
-        resultMessage = (TextView) findViewById(R.id.guesses_result);
+        resultMessageView = (TextView) findViewById(R.id.guesses_result);
     }
 
     private void refreshResultMessage() {
-        resultMessage.setText(getString(R.string.guessed_result_message, scoreKeeper.getCorrectGuesses(), scoreKeeper.getNumberTries()));
+        resultMessageView.setText(getString(R.string.guessed_result_message, scoreKeeper.getCorrectGuesses(), scoreKeeper.getNumberTries()));
     }
 
     private void populatePlayerGameData() {
@@ -121,9 +127,22 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
                 .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //todo the click
+                        resolveContinueOrCompleteGame();
                     }
                 }).create().show();
+    }
+
+    private void resolveContinueOrCompleteGame() {
+        if (scoreKeeper.isGameComplete()) {
+            startResultActivity();
+        } else {
+            buildGameRound();
+        }
+    }
+
+    private void startResultActivity() {
+        Intent intent = new Intent(this, ResultActivity.class);
+        startActivity(intent);
     }
 
     private String getGuessedMessage(boolean didIGuessCorrectly) {
@@ -148,5 +167,9 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
 
     public void setNameOfWinner(String nameOfWinner) {
         this.nameOfWinner = nameOfWinner;
+    }
+
+    public ScoreKeeper getScoreKeeper() {
+        return scoreKeeper;
     }
 }

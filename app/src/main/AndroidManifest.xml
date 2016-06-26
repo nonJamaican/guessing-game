@@ -20,6 +20,8 @@
         </activity>
         <activity
             android:name=".ui.GuessingActivity" />
+        <activity
+            android:name=".ui.ResultActivity" />
 
     </application>
 

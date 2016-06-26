@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ScoreKeeperTest {
 
@@ -86,5 +88,17 @@ public class ScoreKeeperTest {
         scoreKeeper.increaseScore(true);
         scoreKeeper.increaseScore(false);
         assertEquals(2, scoreKeeper.getNumberTries());
+    }
+
+    @Test
+    public void isGameCompleteWillReturnFalseWhenCorrectGuessesNine() {
+        scoreKeeper.setCorrectGuesses(9);
+        assertFalse(scoreKeeper.isGameComplete());
+    }
+
+    @Test
+    public void isGameCompleteWillReturnFalseWhenCorrectGuessesTen() {
+        scoreKeeper.setCorrectGuesses(10);
+        assertTrue(scoreKeeper.isGameComplete());
     }
 }

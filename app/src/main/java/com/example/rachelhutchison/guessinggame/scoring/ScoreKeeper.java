@@ -9,6 +9,10 @@ public class ScoreKeeper {
         return correctGuesses;
     }
 
+    public void setCorrectGuesses(int correctGuesses) {
+        this.correctGuesses = correctGuesses;
+    }
+
     public int getIncorrectGuesses() {
         return incorrectGuesses;
     }
@@ -23,5 +27,9 @@ public class ScoreKeeper {
 
     public int getNumberTries() {
         return correctGuesses + incorrectGuesses;
+    }
+
+    public boolean isGameComplete() {
+        return correctGuesses >= 10;
     }
 }
