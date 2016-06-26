@@ -32,6 +32,7 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
     private String FIRSTNAME_BOBBY = "Bobby";
     private String LASTNAME_SMITH = "Smith";
     private double FPPG_RATING = 14.41463464;
+    private double DISPLAY_FPPG_RATING = 14.415;
     private String URL = "urls";
 
     @Test
@@ -42,10 +43,10 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
     }
 
     @Test
-    public void willPopulatePlayerFppgWhenPassedIn() {
+    public void willPopulatePlayerFppgToThreeDecimalPlacesWhenPassedIn() {
         activity = buildActivity();
         TextView fppgRatingView = (TextView) activity.findViewById(R.id.player_fppg_rating);
-        assertEquals(String.valueOf(FPPG_RATING), fppgRatingView.getText());
+        assertEquals(String.valueOf(DISPLAY_FPPG_RATING), fppgRatingView.getText());
     }
 
     @Test

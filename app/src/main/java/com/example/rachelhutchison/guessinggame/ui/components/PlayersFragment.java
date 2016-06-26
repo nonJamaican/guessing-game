@@ -16,6 +16,8 @@ import com.example.rachelhutchison.guessinggame.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+
 public class PlayersFragment extends Fragment {
 
     private static final String PLAYER_NAME_EXTRA = "PLAYER_NAME_EXTRA";
@@ -51,7 +53,7 @@ public class PlayersFragment extends Fragment {
         configureViews(inflatedView);
         extractSuppliedArguments();
         configurePlayerNameView();
-        setViewText(fppgRatingView, fppgRating);
+        setViewText(fppgRatingView, formatFppgRating());
         configureImageView();
         return inflatedView;
     }
@@ -70,6 +72,11 @@ public class PlayersFragment extends Fragment {
 
     public void showFppgRating() {
         fppgRatingView.setVisibility(View.VISIBLE);
+    }
+
+    private String formatFppgRating() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        return decimalFormat.format(Double.valueOf(fppgRating));
     }
 
     private void configureImageView() {
