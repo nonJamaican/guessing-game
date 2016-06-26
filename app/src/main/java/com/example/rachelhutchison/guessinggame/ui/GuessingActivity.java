@@ -33,7 +33,6 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guessing_game);
-        scoreKeeper = new ScoreKeeper();
         extractExtras();
         configureUi();
         if (fanduelPlayersData == null) {
@@ -41,7 +40,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
             return;
         }
 
-        randomPlayerGenerator = new RandomPlayerGenerator(fanduelPlayersData);
+        buildComponents();
         refreshResultMessage();
 
         if (savedInstanceState != null) {
@@ -60,6 +59,11 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         resultMessageView = (TextView) findViewById(R.id.guesses_result);
     }
 
+    private void buildComponents() {
+        scoreKeeper = new ScoreKeeper();
+        randomPlayerGenerator = new RandomPlayerGenerator(fanduelPlayersData);
+    }
+
     private void refreshResultMessage() {
         resultMessageView.setText(getString(R.string.guessed_result_message, scoreKeeper.getCorrectGuesses(), scoreKeeper.getNumberTries()));
     }
@@ -68,16 +72,8 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         Player player1 = randomPlayerGenerator.getRandomPlayer();
         Player player2 = randomPlayerGenerator.getRandomPlayer();
         nameOfWinner = PlayerComparator.getFullNameOfHighestFppgRating(player1, player2);
-        loadPlayerOneFragment(player1);
-        loadPlayerTwoFragment(player2);
-    }
-
-    private void loadPlayerOneFragment(Player player) {
-        loadPlayerFragment(player, R.id.player_one_compare_container);
-    }
-
-    private void loadPlayerTwoFragment(Player player) {
-        loadPlayerFragment(player, R.id.player_two_compare_container);
+        loadPlayerFragment(player1, R.id.player_one_compare_container);
+        loadPlayerFragment(player2, R.id.player_two_compare_container);
     }
 
     private void loadPlayerFragment(Player player, int containerView) {
