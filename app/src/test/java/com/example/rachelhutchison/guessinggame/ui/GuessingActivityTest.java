@@ -103,6 +103,15 @@ public class GuessingActivityTest extends RobolectricUnitTests {
         assertEquals(guessingActivity.getString(R.string.guessed_dialog_correctly), shadowAlert.getMessage());
         assertEquals(guessingActivity.getString(R.string.next), latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getText());
     }
+    
+    @Test
+    public void onPlayerImageClickIfGameEndConditionsReachedWillDisplayResultsDialogWithButtonTextContinue() {
+        buildActivity(buildOnePlayerIntent());
+        increaseScoreToNineCorrect();
+        guessingActivity.playerImageClicked("bobby smith");
+        AlertDialog latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog();
+        assertEquals(guessingActivity.getString(R.string.continue_button), latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getText());
+    }
 
     @Test
     public void onPlayerImageClickWithCorrectNameWillDisplayResultsMessageCorrect() {
@@ -122,7 +131,7 @@ public class GuessingActivityTest extends RobolectricUnitTests {
     }
 
     @Test
-    public void onPositiveButtonClickFromResultDialogWillReloadNewPlayers() {
+    public void onPositiveButtonClickFromResultDialogWillNotFinishActivity() {
         buildActivity(buildOnePlayerIntent());
         guessingActivity.playerImageClicked("bobby smith");
         AlertDialog latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog();

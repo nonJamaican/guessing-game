@@ -124,12 +124,16 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
                 .setMessage(getGuessedMessage(didIGuessCorrectly))
                 .setTitle(R.string.guessed_dialog_result_title)
                 .setCancelable(false)
-                .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
+                .setPositiveButton(getPositiveButtonText(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         resolveContinueOrCompleteGame();
                     }
                 }).create().show();
+    }
+
+    private int getPositiveButtonText() {
+        return scoreKeeper.isGameComplete() ? R.string.continue_button : R.string.next;
     }
 
     private void resolveContinueOrCompleteGame() {
