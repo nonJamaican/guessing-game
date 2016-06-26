@@ -50,7 +50,7 @@ public class MainActivityTest extends RobolectricUnitTests {
     @Test
     public void onSuccessfulGetPlayerDataRequestShouldEnableContinueButton() throws InterruptedException {
         mockFanduelService = mockRestService.buildMockRestService(mockRestService.getSuccessResponse);
-        getApplication().setService(mockFanduelService);
+        getApplication().setRestService(mockFanduelService);
         mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         Button button = (Button) mainActivity.findViewById(R.id.continue_button);
         delayThreadForRestRequestResponse();
@@ -60,7 +60,7 @@ public class MainActivityTest extends RobolectricUnitTests {
     @Test
     public void onFailureGetPlayersDataRequestShouldShowToastMessage() throws InterruptedException {
         mockFanduelService = mockRestService.buildMockRestService(mockRestService.getFailureResponse);
-        getApplication().setService(mockFanduelService);
+        getApplication().setRestService(mockFanduelService);
         mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         delayThreadForRestRequestResponse();
 
@@ -71,7 +71,7 @@ public class MainActivityTest extends RobolectricUnitTests {
     @Test
     public void onContinueButtonPressFromSuccessResponseShouldStartNextActivity() throws InterruptedException {
         mockFanduelService = mockRestService.buildMockRestService(mockRestService.getSuccessResponse);
-        getApplication().setService(mockFanduelService);
+        getApplication().setRestService(mockFanduelService);
         mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         Button button = (Button) mainActivity.findViewById(R.id.continue_button);
         delayThreadForRestRequestResponse();

@@ -165,11 +165,11 @@ public class GuessingActivityTest extends RobolectricUnitTests {
 
     private Intent buildOnePlayerIntent() {
         Intent intent = new Intent(getApplication(), GuessingActivity.class);
-        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelPlayersWithOnlyOnePlayer());
+        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelResponseWithOnlyOnePlayer());
         return intent;
     }
 
-    private FanDuelResponse buildFanDuelPlayersWithOnlyOnePlayer() {
+    private FanDuelResponse buildFanDuelResponseWithOnlyOnePlayer() {
         FanDuelResponse fanDuelResponse = new FanDuelResponse();
         List<Player> players = new ArrayList<>();
         players.add(buildPlayer());

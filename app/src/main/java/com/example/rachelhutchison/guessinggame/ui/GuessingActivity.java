@@ -22,7 +22,7 @@ import com.example.rachelhutchison.guessinggame.ui.components.PlayersFragment.Ha
 public class GuessingActivity extends AppCompatActivity implements HandlePlayerImageInteraction {
 
     public static final String PLAYERS_DATA_EXTRA = "PLAYERS_DATA_EXTRA";
-    private FanDuelResponse fanduelResponseData;
+    private FanDuelResponse fanDuelResponse;
     private String nameOfWinner;
 
     private RandomPlayerGenerator randomPlayerGenerator;
@@ -35,7 +35,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
         setContentView(R.layout.activity_guessing_game);
         extractExtras();
         configureUi();
-        if (fanduelResponseData == null) {
+        if (fanDuelResponse == null) {
             displayErrorMessage();
             return;
         }
@@ -61,7 +61,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
 
     private void buildComponents() {
         scoreKeeper = new ScoreKeeper();
-        randomPlayerGenerator = new RandomPlayerGenerator(fanduelResponseData);
+        randomPlayerGenerator = new RandomPlayerGenerator(fanDuelResponse);
     }
 
     private void refreshResultMessage() {
@@ -99,7 +99,7 @@ public class GuessingActivity extends AppCompatActivity implements HandlePlayerI
     }
 
     private void extractExtras() {
-        fanduelResponseData = (FanDuelResponse) getIntent().getSerializableExtra(PLAYERS_DATA_EXTRA);
+        fanDuelResponse = (FanDuelResponse) getIntent().getSerializableExtra(PLAYERS_DATA_EXTRA);
     }
 
     private void displayErrorMessage() {

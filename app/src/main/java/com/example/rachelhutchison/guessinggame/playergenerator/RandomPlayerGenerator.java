@@ -10,8 +10,8 @@ public class RandomPlayerGenerator {
 
     private List<Player> allPlayers;
 
-    public RandomPlayerGenerator(FanDuelResponse fanDuelResponseData) {
-        allPlayers = fanDuelResponseData.getPlayers();
+    public RandomPlayerGenerator(FanDuelResponse fanDuelResponse) {
+        allPlayers = fanDuelResponse.getPlayers();
     }
 
     public List<Player> getAllPlayers() {

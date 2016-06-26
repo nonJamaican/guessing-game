@@ -128,11 +128,11 @@ public class PlayersFragmentTest extends RobolectricUnitTests {
 
     private GuessingActivity buildActivity() {
         Intent intent = new Intent(getApplication(), GuessingActivity.class);
-        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelPlayersWithOnlyOnePlayer());
+        intent.putExtra(GuessingActivity.PLAYERS_DATA_EXTRA, buildFanDuelResponseWithOnlyOnePlayer());
         return Robolectric.buildActivity(GuessingActivity.class).withIntent(intent).create().start().get();
     }
 
-    private FanDuelResponse buildFanDuelPlayersWithOnlyOnePlayer() {
+    private FanDuelResponse buildFanDuelResponseWithOnlyOnePlayer() {
         FanDuelResponse fanDuelResponse = new FanDuelResponse();
         List<Player> players = new ArrayList<>();
         players.add(buildPlayer());

@@ -18,17 +18,17 @@ public class RandomPlayerGeneratorTest {
 
     @Before
     public void setUp() {
-        FanDuelResponse fanDuelResponse = populate5RandomFanDuelPlayers();
+        FanDuelResponse fanDuelResponse = populate5RandomPlayersResponse();
         randomPlayerGenerator = new RandomPlayerGenerator(fanDuelResponse);
     }
 
     @Test
-    public void shouldPopulateAListOfPlayersFromFanDuelData() {
+    public void shouldPopulateAListOfPlayersFromFanDuelResponse() {
         assertNotNull(randomPlayerGenerator.getAllPlayers());
     }
 
     @Test
-    public void shouldPopulateAListWithAllPlayersFromFanDuelData() {
+    public void shouldPopulateAListWithAllPlayersFromFanDuelResponse() {
         assertEquals(5, randomPlayerGenerator.getAllPlayers().size());
     }
 
@@ -37,7 +37,7 @@ public class RandomPlayerGeneratorTest {
         assertNotNull(randomPlayerGenerator.getRandomPlayer());
     }
 
-    private FanDuelResponse populate5RandomFanDuelPlayers() {
+    private FanDuelResponse populate5RandomPlayersResponse() {
         FanDuelResponse fanDuelResponse = new FanDuelResponse();
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

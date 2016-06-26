@@ -8,7 +8,7 @@
     <string name="continue_button">CONTINUE</string>
 
     <!-- guessing activity -->
-    <string name="guessing_game_instruction_message">Choose who you think has the highest Fanduel points per game? Your goal is to get 10 right in the minimum amount of guesses.</string>
+    <string name="guessing_game_instruction_message">Choose who you think has the highest FanDuel points per game? Your goal is to get 10 right in the minimum amount of guesses.</string>
     <string name="next">NEXT PLAYERS</string>
     <string name="guessed_dialog_correctly">You are correct!!</string>
     <string name="guessed_dialog_wrong">Sorry, not this time.</string>

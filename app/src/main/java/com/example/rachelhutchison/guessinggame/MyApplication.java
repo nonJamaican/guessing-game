@@ -8,21 +8,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyApplication extends android.app.Application {
 
-    private FanDuelService service;
+    private FanDuelService restService;
     private Picasso imageService;
 
     public MyApplication() {
         super.onCreate();
-        setService(getRetrofit().create(FanDuelService.class));
+        setRestService(getRetrofit().create(FanDuelService.class));
         setImageService(getPicasso());
     }
 
     public FanDuelService getRestService() {
-        return service;
+        return restService;
     }
 
-    public void setService(FanDuelService service) {
-        this.service = service;
+    public void setRestService(FanDuelService restService) {
+        this.restService = restService;
     }
 
     private Retrofit getRetrofit() {
