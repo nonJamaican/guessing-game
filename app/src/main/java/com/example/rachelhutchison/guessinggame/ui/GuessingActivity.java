@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rachelhutchison.guessinggame.R;
@@ -25,6 +26,7 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
 
     private RandomPlayerGenerator randomPlayerGenerator;
     private ScoreKeeper scoreKeeper;
+    private TextView resultMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,19 +34,28 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
         setContentView(R.layout.activity_guessing_game);
         scoreKeeper = new ScoreKeeper();
         extractExtras();
-
+        configureUi();
         if (fanduelPlayersData == null) {
             displayErrorMessage();
             return;
         }
 
         randomPlayerGenerator = new RandomPlayerGenerator(fanduelPlayersData);
+        refreshResultMessage();
 
         if (savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         } else {
             populatePlayerGameData();
         }
+    }
+
+    private void configureUi() {
+        resultMessage = (TextView) findViewById(R.id.guesses_result);
+    }
+
+    private void refreshResultMessage() {
+        resultMessage.setText(getString(R.string.guessed_result_message, scoreKeeper.getCorrectGuesses(), scoreKeeper.getNumberTries()));
     }
 
     private void populatePlayerGameData() {
@@ -98,6 +109,7 @@ public class GuessingActivity extends AppCompatActivity implements HandllePlayer
         showFppgRatings();
         boolean didIGuessCorrectly = didIGuessCorrectly(playerName);
         calculateTheScore(didIGuessCorrectly);
+        refreshResultMessage();
         displayGuessMessage(didIGuessCorrectly);
     }
 

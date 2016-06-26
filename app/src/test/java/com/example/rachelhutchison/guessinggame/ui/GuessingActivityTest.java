@@ -37,14 +37,14 @@ public class GuessingActivityTest extends RobolectricUnitTests {
 
     @Test
     public void onCreateShouldShowInstructionMessageToUser() {
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        buildActivity(buildOnePlayerIntent());
         TextView instructionMessage = (TextView) guessingActivity.findViewById(R.id.guessing_game_instruction_message);
         assertEquals(guessingActivity.getString(R.string.guessing_game_instruction_message), instructionMessage.getText());
     }
 
     @Test
     public void onCreateShouldShowPlayerOneImageAndName() {
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        buildActivity(buildOnePlayerIntent());
         PlayersFragment fragment = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_one_compare_container);
         assertEquals(View.VISIBLE, fragment.getPlayerImageView().getVisibility());
         assertEquals("bobby smith", fragment.getPlayerNameView().getText());
@@ -52,15 +52,22 @@ public class GuessingActivityTest extends RobolectricUnitTests {
 
     @Test
     public void onCreateShouldShowPlayerTwoImageAndName() {
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        buildActivity(buildOnePlayerIntent());
         PlayersFragment fragment = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_two_compare_container);
         assertEquals(View.VISIBLE, fragment.getPlayerImageView().getVisibility());
         assertEquals("bobby smith", fragment.getPlayerNameView().getText());
     }
 
     @Test
+    public void onCreateWillDisplayNumberOfCorrectGuessesAndTriesAsZero() {
+        buildActivity(buildOnePlayerIntent());
+        TextView guessResult = (TextView) guessingActivity.findViewById(R.id.guesses_result);
+        assertEquals(guessingActivity.getString(R.string.guessed_result_message, 0, 0), guessResult.getText());
+    }
+
+    @Test
     public void onPlayerImageClickShouldShowBothPlayersFppgRatings() {
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        buildActivity(buildOnePlayerIntent());
         PlayersFragment fragment1 = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_one_compare_container);
         PlayersFragment fragment2 = (PlayersFragment) guessingActivity.getFragmentManager().findFragmentById(R.id.player_two_compare_container);
         assertEquals(View.INVISIBLE, fragment1.getFppgRatingView().getVisibility());
@@ -72,7 +79,7 @@ public class GuessingActivityTest extends RobolectricUnitTests {
 
     @Test
     public void onPlayerImageClickWithWrongNameWillDisplayWrongResultDialog() {
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        buildActivity(buildOnePlayerIntent());
         guessingActivity.setNameOfWinner("bobby smith");
         guessingActivity.playerImageClicked("anyName");
         AlertDialog latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog();
@@ -84,13 +91,34 @@ public class GuessingActivityTest extends RobolectricUnitTests {
 
     @Test
     public void onPlayerImageClickWithCorrectNameWillDisplayCorrectResultDialog() {
-        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(buildOnePlayerIntent()).create().visible().get();
+        buildActivity(buildOnePlayerIntent());
         guessingActivity.playerImageClicked("bobby smith");
         AlertDialog latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog();
         ShadowAlertDialog shadowAlert = Shadows.shadowOf(latestAlertDialog);
         assertEquals(guessingActivity.getString(R.string.guessed_dialog_result_title), shadowAlert.getTitle());
         assertEquals(guessingActivity.getString(R.string.guessed_dialog_correctly), shadowAlert.getMessage());
         assertEquals(guessingActivity.getString(R.string.next), latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getText());
+    }
+
+    @Test
+    public void onPlayerImageClickWithCorrectNameWillDisplayResultsMessageCorrect() {
+        buildActivity(buildOnePlayerIntent());
+        guessingActivity.playerImageClicked("bobby smith");
+        TextView guessResult = (TextView) guessingActivity.findViewById(R.id.guesses_result);
+        assertEquals(guessingActivity.getString(R.string.guessed_result_message, 1, 1), guessResult.getText());
+    }
+
+    @Test
+    public void onPlayerImageClickWithWrongNameWillDisplayResultsMessageCorrect() {
+        buildActivity(buildOnePlayerIntent());
+        guessingActivity.setNameOfWinner("bobby smith");
+        guessingActivity.playerImageClicked("anyName");
+        TextView guessResult = (TextView) guessingActivity.findViewById(R.id.guesses_result);
+        assertEquals(guessingActivity.getString(R.string.guessed_result_message, 0, 1), guessResult.getText());
+    }
+
+    private void buildActivity(Intent intent) {
+        guessingActivity = Robolectric.buildActivity(GuessingActivity.class).withIntent(intent).create().visible().get();
     }
 
     private Intent buildOnePlayerIntent() {

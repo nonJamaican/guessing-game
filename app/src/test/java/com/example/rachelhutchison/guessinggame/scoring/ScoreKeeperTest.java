@@ -69,4 +69,22 @@ public class ScoreKeeperTest {
         assertEquals(1, scoreKeeper.getCorrectGuesses());
         assertEquals(1, scoreKeeper.getIncorrectGuesses());
     }
+
+    @Test
+    public void getTriesWillReturnZerosAtStart() {
+        assertEquals(0, scoreKeeper.getNumberTries());
+    }
+
+    @Test
+    public void getTriesWillReturnOneWhenIncorrectOneAndCorrectZero() {
+        scoreKeeper.increaseScore(false);
+        assertEquals(1, scoreKeeper.getNumberTries());
+    }
+
+    @Test
+    public void getTriesWillReturnTwoWhenIncorrectOneAndCorrectOne() {
+        scoreKeeper.increaseScore(true);
+        scoreKeeper.increaseScore(false);
+        assertEquals(2, scoreKeeper.getNumberTries());
+    }
 }

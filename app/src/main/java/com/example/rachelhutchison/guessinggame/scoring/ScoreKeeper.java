@@ -21,4 +21,7 @@ public class ScoreKeeper {
         }
     }
 
+    public int getNumberTries() {
+        return correctGuesses + incorrectGuesses;
+    }
 }

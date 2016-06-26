@@ -13,6 +13,7 @@
     <string name="guessed_dialog_correctly">You are correct!!</string>
     <string name="guessed_dialog_wrong">Sorry, not this time.</string>
     <string name="guessed_dialog_result_title">Result</string>
+    <string name="guessed_result_message">%1$d correct out of %2$d attempts</string>
 
     <!-- error messages -->
     <string name="network_error_message">Sorry, something went wrong</string>
