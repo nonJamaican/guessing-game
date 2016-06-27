@@ -30,6 +30,7 @@
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
             android:padding="@dimen/activity_border_margin"
+            android:visibility="gone"
             />
 
         <ImageView
